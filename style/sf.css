@@ -30,6 +30,22 @@ a:HOVER {
 		rgba(255, 255, 255, .15)
 }
 
+#slogan {
+	font-family: "Microsoft YaHei";
+	width: 70%;
+	margin: 0 auto;
+	height: 100%;
+	color: #FFF;
+}
+
+#slogan p {
+	margin: 0px;
+	height: 100%;
+	font-size: 20px;
+	line-height: 45px;
+	font-weight: bold;
+}
+
 .sf-box {
 	float: left;
 	margin: 10px;
