@@ -1,5 +1,13 @@
 #Markdown语法
 
+	注: 这边文章翻译自Markdown创始人JOHN GRUBER的个人博客, 英文原文请参见: 
+		http://daringfireball.net/projects/markdown/syntax
+
+		这篇文章花了一天多的时间翻译完成, 如有发现错误, 欢迎通过Github或者我的微博
+		http://weibo.com/ayningcao @乔的果园 
+		联系我修改, 谢谢!
+
+
 [综述(Overview)](#overview)
 
 * [宗旨](#philosophy)
