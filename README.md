@@ -2,4 +2,6 @@
 
 ## content
 
-* Other 
+
+* [Markdown Syntax(Chinese Edition)](./Markdown_syntax.md)
+* Other
