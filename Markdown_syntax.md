@@ -1,11 +1,14 @@
-#Markdown语法
+#Markdown语法中文版
 
-	注: 这边文章翻译自Markdown创始人JOHN GRUBER的个人博客, 英文原文请参见: 
-		http://daringfireball.net/projects/markdown/syntax
+* 这边文章翻译自Markdown创始人JOHN GRUBER的 [个人博客](http://daringfireball.net/), 英文原文请参见 [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax "Markdown syntax")
+* 个人水平有限, 如有发现错误, 欢迎通过[Github](https://github.com/ayningcao "My Github") 或者 [@乔的果园](http://weibo.com/ayningcao) 联系我修改, 谢谢!
+* 如果您不介意, 欢迎关注我的 [微信公众号](#wechat)
+* 一些专有名词直译过程中我们约定如下:
 
-		这篇文章花了一天多的时间翻译完成, 如有发现错误, 欢迎通过Github或者我的微博
-		http://weibo.com/ayningcao @乔的果园 
-		联系我修改, 谢谢!
+	
+		Bolck Element: 块元素, 对应HTML中<div>, <p>等;
+		Inline Element: 内联元素, 对应HTML中<span>, <i>等
+		HTML entity: HTML字符实体, 对应HTML中&lt;等 
 
 
 [综述(Overview)](#overview)
@@ -23,7 +26,7 @@
 * [代码块](#code-block)
 * [水平线](#hr)
 
-[行元素(Span Element)](#span)  
+[内联元素(Span Element)](#span)  
 
 * [超链接](#link)
 * [强调](#em)
@@ -67,7 +70,7 @@ Markdown不是为了取代HTML, 也不是为了接近HTML. 它的语法非常少
 
 	This is another regular paragraph.
 
-注意到在HTML块级元素标签里面Markdown格式的语法不会被解释, 例如你不能在HTML块元素里面使用Markdown风格的强调\*emphasis\*.
+注意到在HTML块元素标签里面Markdown格式的语法不会被解释, 例如你不能在HTML块元素里面使用Markdown风格的强调\*emphasis\*.
 
 内联HTML元素-例如`<span>`, `<cite>`或者`<del>` -可以在Markdown段落, 列表项或者头部中的任何地方. 你甚至可以使用HTML标签代替Markdown的格式. 例如你可以用HTML的`<a>`或者`<img>`标签代替Markdown的超链接或者图片语法.
 
@@ -669,3 +672,6 @@ Markdown转义字符可以对下面的特殊字符进行转义:
 	-   minus sign (hyphen)
 	.   dot
 	!   exclamation mark
+
+
+![My Wechat](./img/wechat.jpg)
