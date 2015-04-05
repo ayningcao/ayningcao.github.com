@@ -674,4 +674,4 @@ Markdown转义字符可以对下面的特殊字符进行转义:
 	!   exclamation mark
 
 
-![My Wechat](./img/wechat.jpg)
+<img src="./img/wechat.jpg" alt="my wechat" id="wechat" />
