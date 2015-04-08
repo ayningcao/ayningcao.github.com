@@ -1,7 +1,6 @@
 #Markdown语法中文版
 
 * 这边文章翻译自Markdown创始人JOHN GRUBER的 [个人博客](http://daringfireball.net/), 英文原文请参见 [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax "Markdown syntax")
-* 个人水平有限, 如有发现错误, 欢迎通过[Github](https://github.com/ayningcao "My Github") 或者 [@乔的果园](http://weibo.com/ayningcao) 联系我修改, 谢谢!
 * 如果您不介意, 欢迎关注我的 [微信公众号](#wechat);
 * 这篇文章本身也是用Markdown格式编写的;
 * 一些专有名词直译过程中我们约定如下:
