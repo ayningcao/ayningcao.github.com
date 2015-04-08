@@ -5,5 +5,6 @@
 
 ####content
 
-* [Markdown Syntax(Chinese Edition)](./Markdown_syntax.md)
+* [Markdown Syntax(Chinese Edition)](./article/Markdown_syntax.md)
+* [Markdown编辑器推荐](./article/Markdown_elements.md)
 * Other
