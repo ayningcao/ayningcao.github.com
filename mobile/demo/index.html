@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="style/jquery.mobile-1.4.5.min.css" />
 <script src="js/jquery-1.8.3.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
 </head>
 
 <body>
@@ -18,10 +19,22 @@
 		<!-- /header -->
 
 		<div role="main" class="ui-content">
+			<a class="ui-btn" href="#">href button</a>
+			<button class="ui-btn">Button button</button>
+			
+			<a href="#" class="ui-btn ui-corner-all">Corner Button</a>
+			
+			<a href="#" class="ui-btn ui-corner-all ui-btn-inline">Inline button 1</a>
+			<a href="#" class="ui-btn ui-corner-all ui-btn-inline">Inline button 2</a>
 			<p>I'm first in the source order so I'm shown as the page.</p>
 			<p>
 				View internal page called <a href="#bar">bar</a>
 			</p>
+			
+			<div data-role="popup" id="mypopup" data-arrow="true">
+				<p>This is a popup</p>
+			</div>
+			
 		</div>
 		<!-- /content -->
 
