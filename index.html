@@ -144,8 +144,13 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-6">
-                        <button type="submit" class="btn btn-primary" id="submitBtn" onclick="calcluateLoan(); return false;">开始计算</button>
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-primary" id="submitBtn"
+                                onclick="calculateLoan(); return false;">等额本息
+                        </button>
+                        <button type="submit" class="btn btn-primary"
+                                onclick="calculateAverageCapital(); return false;">等额本金
+                        </button>
                         <button type="reset" class="btn btn-danger">清空重填</button>
                     </div>
                 </div>
@@ -159,7 +164,7 @@
 <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    $(function(){
+    $(function () {
         var $actualInterest = $("#actualInterest");
         var $interest = $("#interest");
         var $byArea = $("#byArea");
@@ -178,12 +183,37 @@
         $("#actualInterest").val(amt + "%");
     }
 
-    function calcluateLoan() {
+    function calculateLoan() {
         var totalAmt = $("#totalLoanAmt").val() * 10000;    // 贷款总额, 单位元
         var interest = $("#interest").val() * $("#interestDiscount").val() / (12 * 10000); // 月利率
         var loanYears = $("#loanYears").val();  // 贷款年限
         var monthRepayAmt = totalAmt * interest * Math.pow((1 + interest), loanYears * 12) / (Math.pow(1 + interest, loanYears * 12) - 1);
         $("#monthRepayAmt").html(Math.round(parseFloat(monthRepayAmt) * 100) / 100 + "元");
+    }
+
+    function calculateAverageCapital() {
+        var totalAmt = $("#totalLoanAmt").val() * 10000;    // 贷款总额, 单位元
+        var interest = $("#interest").val() * $("#interestDiscount").val() / (12 * 10000); // 月利率
+        var loanMonths = $("#loanYears").val() * 12;  // 贷款期数
+        var content = "<table class='table'><thead><tr><td>期数</td><td>应还金额</td></tr></thead><tbody>";
+        for (var i = 1; i <= loanMonths; i++) {
+            var amt = averageCapital(i, loanMonths, interest, totalAmt)
+            content += "<tr><td>" + i + "</td><td>" + Math.round(parseFloat(amt) * 100) / 100 + "</td></tr>";
+        }
+        content += "</tbody></table>";
+        $("#monthRepayAmt").html(content);
+    }
+    /**
+     * 等额本金还款法
+     * @param index 当前还款期
+     * @param month 总还款期数(月)
+     * @param monthInterest 月利率
+     * @param totalLoanAmt  贷款总额
+     */
+    function averageCapital(index, month, monthInterest, totalLoanAmt) {
+        var monthCapital = totalLoanAmt / month;
+        var amt = (totalLoanAmt - (index - 1) * monthCapital) * monthInterest;
+        return monthCapital + amt;
     }
 </script>
 </body>
