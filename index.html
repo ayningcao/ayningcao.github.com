@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <title>8090事</title>
+    <style type="text/css" >
+        body {
+            font-family: "Microsoft YaHei UI";
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -146,10 +151,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn btn-primary" id="submitBtn"
-                                onclick="calculateLoan(); return false;">等额本息
-                        </button>
-                        <button type="submit" class="btn btn-primary"
-                                onclick="calculateAverageCapital(); return false;">等额本金
+                                onclick="doCalculate(); return false;">开始计算
                         </button>
                         <button type="reset" class="btn btn-danger">清空重填</button>
                     </div>
@@ -157,7 +159,42 @@
             </form>
         </div>
         <div class="col-md-6 col-xs-12">
-            <div id="monthRepayAmt"></div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>等额本息</th>
+                    <th>等额本金</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>贷款总额</td>
+                    <td id="acpi-total-loan"></td>
+                    <td id="ac-total-loan"></td>
+                </tr>
+                <tr>
+                    <td>还款总额</td>
+                    <td id="acpi-total-repay"></td>
+                    <td id="ac-total-repay"></td>
+                </tr>
+                <tr>
+                    <td>贷款期限(月)</td>
+                    <td id="acpi-total-month"></td>
+                    <td id="ac-total-month"></td>
+                </tr>
+                <tr>
+                    <td>总利息</td>
+                    <td id="acpi-total-interest"></td>
+                    <td id="ac-total-interest"></td>
+                </tr>
+                <tr>
+                    <td>每月还款金额</td>
+                    <td id="acpi-month-repay"></td>
+                    <td id="ac-first-month-repay"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -178,17 +215,52 @@
 
     });
 
+    function doCalculate() {
+        var totalAmt = $("#totalLoanAmt").val() * 10000;                                        // 贷款总额, 单位元
+        var loanYears = $("#loanYears").val();                                                  // 贷款年限
+        var loanMonths = loanYears * 12;                                                  // 贷款期数
+        var interest = $("#interest").val() * $("#interestDiscount").val() / (12 * 10000);      // 月利率
+
+        // 等额本息
+        var monthRepayAmt = totalAmt * interest * Math.pow((1 + interest), loanMonths) / (Math.pow(1 + interest, loanMonths) - 1);
+        var monthRepay = formatCurrency(monthRepayAmt);                                         // 每月还款
+        var totalInterest = totalInterestOfACPI(totalAmt, loanYears * 12, interest);            // 总利息
+        var totalRepay = totalAmt + totalInterest;                                              // 还款总额
+        $("#acpi-total-loan").html(formatCurrency(totalAmt));
+        $("#acpi-total-interest").html(totalInterest);
+        $("#acpi-total-repay").html(totalRepay);
+        $("#acpi-total-month").html(loanMonths);
+        $("#acpi-month-repay").html(monthRepay);
+
+        //等额本金
+        var totalInterestAmtOfAC = totalInterestOfAC(totalAmt, loanMonths, interest);
+        var firstMonth = averageCapital(1, loanMonths, interest, totalAmt);
+        var totalRepayOfAC = totalInterestAmtOfAC + totalAmt;
+        $("#ac-total-loan").html(formatCurrency(totalAmt));
+        $("#ac-total-interest").html(totalInterestAmtOfAC);
+        $("#ac-total-repay").html(formatCurrency(totalRepayOfAC));
+        $("#ac-total-month").html(loanMonths);
+        $("#ac-first-month-repay").html(formatCurrency(firstMonth));
+    }
+
     function calculateActualInterest() {
         var amt = $("#interest").val() * $("#interestDiscount").val() / 100;
         $("#actualInterest").val(amt + "%");
     }
 
+    /**
+     * 等额本息还款计算
+     */
     function calculateLoan() {
         var totalAmt = $("#totalLoanAmt").val() * 10000;    // 贷款总额, 单位元
         var interest = $("#interest").val() * $("#interestDiscount").val() / (12 * 10000); // 月利率
         var loanYears = $("#loanYears").val();  // 贷款年限
         var monthRepayAmt = totalAmt * interest * Math.pow((1 + interest), loanYears * 12) / (Math.pow(1 + interest, loanYears * 12) - 1);
-        $("#monthRepayAmt").html(Math.round(parseFloat(monthRepayAmt) * 100) / 100 + "元");
+        var totalInterest = totalInterestOfACPI(totalAmt, loanYears * 12, interest); // 总利息
+        var monthRepay = Math.round(parseFloat(monthRepayAmt) * 100) / 100; // 每月还款
+        var totalRepay = totalAmt + totalInterest; // 还款总额
+        $("#acpi-monthRepay").html(asRMB(monthRepay));
+        $("#acpi-total-interest").html(asRMB(totalInterest));
     }
 
     function calculateAverageCapital() {
@@ -214,6 +286,43 @@
         var monthCapital = totalLoanAmt / month;
         var amt = (totalLoanAmt - (index - 1) * monthCapital) * monthInterest;
         return monthCapital + amt;
+    }
+
+    /**
+     * 计算等额本息总利息
+     * @param totalLoan 贷款总额, 单位: 元
+     * @param months    贷款总月数
+     * @param monthInterest 月利率
+     */
+    function totalInterestOfACPI(totalLoan, months, monthInterest) {
+        var amt = totalLoan * months * monthInterest * Math.pow((1 + monthInterest), months) / (Math.pow((1 + monthInterest), months) - 1) - totalLoan;
+        return Math.round(parseFloat(amt) * 100) / 100;
+    }
+
+    /**
+     *  计算等额本金总利息
+     */
+    function totalInterestOfAC(totalLoan, months, monthInterest) {
+        var amt = (months + 1) * totalLoan * monthInterest / 2;
+        return formatCurrency(amt);
+    }
+
+    /**
+     * 显示货币/金额
+     * @param money
+     * @returns {string}
+     */
+    function asRMB(money) {
+        return money + "元";
+    }
+
+    /**
+     * 格式化
+     * @param money
+     * @returns {number}
+     */
+    function formatCurrency(money) {
+        return Math.round(parseFloat(money) * 100) / 100;
     }
 </script>
 </body>
